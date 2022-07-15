@@ -37,16 +37,16 @@ const int thread_count = 8;
 #ifdef LOW_QUALITY
 const int image_width = 256;
 const int image_height = 256;
-const int max_sample_rays = 20;
+const int max_sample_rays = 10;
 #else
 #ifdef HIGH_QUALITY
 const int image_width = 1024;
 const int image_height = 1024;
-const int max_sample_rays = 100;
+const int max_sample_rays = 20;
 #else
 const int image_width = 512;
 const int image_height = 512;
-const int max_sample_rays = 40;
+const int max_sample_rays = 15;
 #endif
 #endif
 const int max_recur = 3;
@@ -125,7 +125,7 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
         c = color(c.r() * incoming_light.r(), c.g() * incoming_light.g(), c.b() * incoming_light.b()) * reflectivity;
     } else {
         // Sky color
-        c = color(0.5, 0.5, 0.5);
+        c = color(0.8, 0.83, 1.0);
     }
 
     // Light sources
