@@ -16,10 +16,10 @@
 #include "postprocessing.h"
 
 // Defines
-#define DISPLAY_PROGRESS
- #define HIGH_QUALITY
+ #define DISPLAY_PROGRESS
+// #define HIGH_QUALITY
 // #define LOW_QUALITY
-#define MULTITHREADED
+ #define MULTITHREADED
 
 #ifdef HIGH_QUALITY
 #undef LOW_QUALITY
@@ -110,16 +110,18 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
             incoming_light /= sample_rays;
 
             // Light sources
-            for (int i = 0; i < lights.size(); i++) {
-                const lightsource* light = lights[i];
-                vec3 vec_to_light = light->position() - closest_intersect.position;
-                float distance = vec_to_light.length();
-                float radius = light->radius();
-                float dot = vec3::dot(view_reflected, vec_to_light.normalized()) * roughness;
-                float strength = std::max<float>(0, dot * pow((radius - distance) / radius, light->falloff()) * light->intensity());
-                incoming_light += light->light_color() * strength;
+            if (lights.size() > 0) {
+                for (int i = 0; i < lights.size(); i++) {
+                    const lightsource* light = lights[i];
+                    vec3 vec_to_light = light->position() - closest_intersect.position;
+                    float distance = vec_to_light.length();
+                    float radius = light->radius();
+                    float dot = vec3::dot(view_reflected, vec_to_light.normalized()) * roughness;
+                    float strength = std::max<float>(0, dot * pow((radius - distance) / radius, light->falloff()) * light->intensity());
+                    incoming_light += light->light_color() * strength;
+                }
+                incoming_light /= lights.size();
             }
-            incoming_light /= lights.size();
         }
 
         float reflectivity = intersect_shape->shape_material().material_reflectivity();
