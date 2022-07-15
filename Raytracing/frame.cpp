@@ -1,22 +1,14 @@
 #include "frame.h"
 
-int frame::height() {
-	return h;
-}
-
-int frame::width() {
-	return w;
-}
-
-color frame::get_pixel(int x, int y) {
-	return pixels[y * w + x];
+color frame::get_pixel(int x, int y) const {
+	return color(pixels[y * w + x]);
 }
 
 void frame::set_pixel(int x, int y, color c) {
 	pixels[y * w + x] = c;
 }
 
-void frame::write_to_file(std::string path) {
+void frame::write_to_file(std::string path) const {
 	std::ofstream file_stream = std::ofstream(path);
 
 	file_stream << "P3\n" << w << "\n" << h << "\n" << COLOR_MAX;

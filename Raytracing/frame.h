@@ -10,11 +10,11 @@ class frame {
 public:
 	frame(int height, int width) : h(height), w(width), pixels(new color[height * width]) {}
 
-	int height();
-	int width();
-	color get_pixel(int x, int y);
+	int height() const { return h; };
+	int width() const { return w; };
+	color get_pixel(int x, int y) const;
 	void set_pixel(int x, int y, color c);
-	void write_to_file(std::string path);
+	void write_to_file(std::string path) const;
 private:
 	int h;
 	int w;

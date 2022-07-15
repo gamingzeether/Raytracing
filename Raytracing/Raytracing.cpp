@@ -13,6 +13,7 @@
 #include "sphere.h"
 #include "shape.h"
 #include "vec3.h"
+#include "postprocessing.h"
 
 // Defines
 #define DISPLAY_PROGRESS
@@ -128,8 +129,6 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
         c = color(0.8, 0.83, 1.0);
     }
 
-    // Light sources
-
     return c;
 }
 
@@ -191,6 +190,11 @@ int main() {
 #endif
     }
 #endif
+
+    std::cout << "\nPerforming postprocessing";
+    std::cout << "\n";
+    // postprocessing::blur(image, 1);
+    postprocessing::brightness_adjust(image, 10.0);
 
     std::cout << "\nWriting image to file";
     std::cout << "\n";
