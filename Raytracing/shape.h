@@ -5,16 +5,17 @@
 #include "aabb.h"
 #include "material.h"
 #include "ray.h"
+#include "vec4.h"
 
 class shape {
 public:
-	shape() : pos(pos3(0.0f, 0.0f, 0.0f)), id(next_id) {
+	shape() : pos(pos3(0.0f, 0.0f, 0.0f)), id(next_id), ori(quaternion(1, 0, 0 ,0)) {
 		next_id++;
 	}
-	shape(pos3 position) : pos(position), id(next_id) {
+	shape(pos3 position) : pos(position), id(next_id), ori(quaternion(1, 0, 0, 0)) {
 		next_id++;
 	}
-	shape(pos3 position, material mat) : pos(position), m(mat), id(next_id) {
+	shape(pos3 position, material mat) : pos(position), m(mat), id(next_id), ori(quaternion(1, 0, 0, 0)) {
 		next_id++;
 	}
 
@@ -34,6 +35,8 @@ public:
 	void set_shape_material(material col);
 	inline const aabb& bounding_box() const { return box; }
 	void set_bounding_box(aabb bounding_box);
+	inline const quaternion& orientation() const { return ori; }
+	void set_orientation(quaternion orientation);
 
 	virtual intersect_info ray_intersects(const ray& r) const;
 	virtual bool is_inside(const pos3& point) const;
@@ -44,6 +47,7 @@ protected:
 	material m;
 	int id;
 	aabb box;
+	quaternion ori;
 
 	static int next_id;
 };

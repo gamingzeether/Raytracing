@@ -28,3 +28,7 @@ bool shape::is_inside(const pos3& point) const {
 void shape::update_bounding_box() {
 	throw;
 }
+
+void shape::set_orientation(quaternion orientation) {
+	ori = orientation;
+}
