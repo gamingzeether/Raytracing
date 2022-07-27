@@ -15,7 +15,7 @@ void shape::set_bounding_box(aabb bounding_box) {
 	box = bounding_box;
 }
 
-shape::intersect_info shape::ray_intersects(const ray& ray) const {
+shape::intersect_info shape::ray_intersects(const ray& r) const {
 	throw;
 	return intersect_info();
 }

@@ -12,16 +12,16 @@ void plane::set_height(float height) {
 	update_bounding_box();
 }
 
-shape::intersect_info plane::ray_intersects(const ray& ray) const {
+shape::intersect_info plane::ray_intersects(const ray& r) const {
 	// Check x and z when ray crosses plane
-	float dist = (pos.y() - ray.origin().y()) / ray.direction().y();
-	if (dist < 0 || dist > ray.direction().length()) {
+	float dist = (pos.y() - r.origin().y()) / r.direction().y();
+	if (dist < 0 || dist > r.direction().length()) {
 		return intersect_info();
 	}
-	pos3 potential_intersect_pos = ray.at_distance(dist);
+	pos3 potential_intersect_pos = r.at_distance(dist);
 
 	if (abs(potential_intersect_pos.x() - pos.x()) < half_w && abs(potential_intersect_pos.z() - pos.z()) < half_h) {
-		vec3 normal = vec3(0, -ray.direction().y(), 0);
+		vec3 normal = vec3(0, -r.direction().y(), 0);
 		normal.normalize();
 
 		return intersect_info(dist, potential_intersect_pos, normal, id);

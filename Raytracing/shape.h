@@ -35,7 +35,7 @@ public:
 	inline const aabb& bounding_box() const { return box; }
 	void set_bounding_box(aabb bounding_box);
 
-	virtual intersect_info ray_intersects(const ray& ray) const;
+	virtual intersect_info ray_intersects(const ray& r) const;
 	virtual bool is_inside(const pos3& point) const;
 	virtual void update_bounding_box();
 protected:

@@ -5,27 +5,27 @@
 class sphere :
     public shape {
 public:
-    sphere() : shape(), r(1.0f) {
+    sphere() : shape(), rad(1.0f) {
         update_bounding_box();
     }
     sphere(pos3 position, float radius) : 
         shape(position),
-        r(radius) {
+        rad(radius) {
         update_bounding_box();
     }
     sphere(pos3 position, float radius, material mat) : 
         shape(position, mat),
-        r(radius) {
+        rad(radius) {
         update_bounding_box();
     }
 
-    inline float radius() const { return r; }
+    inline float radius() const { return rad; }
     void set_radius(float radius);
 
-    intersect_info ray_intersects(const ray& ray) const;
+    intersect_info ray_intersects(const ray& r) const;
     bool is_inside(const pos3& point) const;
     void update_bounding_box();
 protected:
-    float r;
+    float rad;
 };
 
