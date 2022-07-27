@@ -52,6 +52,7 @@ const int max_sample_rays = 20;
 #endif
 const int max_recur = 3;
 const int color_max = 255;
+const int cam_rays_per_pixel = 2;
 
 camera cam = camera(image_width / image_height, image_height, 20, 10);
 std::vector<lightsource*> lights;
@@ -162,7 +163,12 @@ int main() {
             for (int pixel_y = row_start; pixel_y < row_start + count; pixel_y++) {
                 for (int pixel_x = 0; pixel_x < image_width; pixel_x++) {
                     ray pixel_ray = cam.pixel_to_ray(pixel_x, pixel_y);
-                    color pixel_color = ray_color(pixel_ray, 0, -1) * color_max;
+                    color pixel_color = color();
+                    
+                    for (int p = 0; p < cam_rays_per_pixel; p++) {
+                        pixel_color += ray_color(pixel_ray, 0, -1)* color_max;
+                    }
+                    pixel_color /= cam_rays_per_pixel;
 
                     image.set_pixel(pixel_x, pixel_y, pixel_color);
                 }
