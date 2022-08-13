@@ -142,10 +142,12 @@ int main() {
     sphere s3 = sphere(pos3(-1.0, -0.3, -5.0), 1, material(0.90, 1.0, color(0.9, 0.4, 0.4)));
     sphere s4 = sphere(pos3( 0.1,  1.0, -5.0), 1, material(0.10, 1.0, color(1.0, 0.5, 1.0)));
     sphere s5 = sphere(pos3(-3.0,  0.0, -4.0), 1, material(1.00, 1.0, color(1.0, 1.0, 1.0)));
-    plane p1 = plane(pos3( 0.0, -1.5, -5.0), 100, 100, material(0.00, 1.0, color(0.9, 1.0, 0.9)));
+    plane p1 = plane(pos3( 0.0, -1.5, -5.0), 100, 100, material(0.00, 1.0, color(0.8, 1.0, 0.8)));
     plane p2 = plane(pos3( 0.0,  0.5, -5.0),   3,   3, material(0.70, 1.0, color(0.9, 0.5, 0.5)));
-    all_shapes = { &s1, &s2, &s3, &s4, &s5, &p1, &p2 };
-    p2.set_orientation(quaternion::from_axis_angle(vec3(0, 1, 0), 3.14f / 6.0f));
+    plane p3 = plane(pos3( 3.0,  0.5, -5.0),   3,   3, material(0.00, 1.0, color(1.0, 0.9, 0.9)));
+    all_shapes = { &s1, &s2, &s3, &s4, &s5, &p1, &p2, &p3 };
+    p2.set_orientation(quaternion::from_axis_angle(vec3(0, 1, 0), 30 * DEG_TO_RAD));
+    p3.set_orientation(quaternion::from_axis_angle(vec3(1, 0, 0), 45 * DEG_TO_RAD));
 
     // Create lights
     lightsource l1 = lightsource(pos3(  0,   0,  -3), color(1.0, 1.0, 1.0), 10, 2, 1.0);

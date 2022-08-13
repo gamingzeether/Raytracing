@@ -66,3 +66,12 @@ ray vec4::rotate(const ray& r, const vec3& center) const {
 
 	return ray(qOrigin.vector_part() + center, qDirection.vector_part());
 }
+
+vec3 vec4::rotate(const vec3& v) const {
+	vec4 qVector = vec4(v);
+	vec4 conj = conjugate();
+
+	qVector = this->operator*(qVector) * conj;
+
+	return qVector.vector_part();
+}

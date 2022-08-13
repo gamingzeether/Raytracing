@@ -67,6 +67,7 @@ public:
 	vec3 vector_part() const;
 
 	ray rotate(const ray& r, const vec3& center) const;
+	vec3 rotate(const vec3& v) const;
 private:
 	float e[4];
 };

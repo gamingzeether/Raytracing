@@ -25,6 +25,8 @@ shape::intersect_info plane::ray_intersects(const ray& r) const {
 	if (abs(potential_intersect_pos.x() - pos.x()) < half_w && abs(potential_intersect_pos.z() - pos.z()) < half_h) {
 		vec3 normal = vec3(0, -rayRot.direction().y(), 0);
 		normal.normalize();
+		normal = ori.conjugate().rotate(normal);
+		potential_intersect_pos = ori.conjugate().rotate(potential_intersect_pos - pos) + pos;
 
 		return intersect_info(dist, potential_intersect_pos, normal, id);
 	} else {
