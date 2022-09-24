@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "vec3.h"
+#include "pngwriter.h"
 
 #define COLOR_MAX 255
 
@@ -21,13 +22,5 @@ private:
 	int h;
 	int w;
 	color* pixels;
-
-	void overwrite_bytes(std::vector<uint8_t> &stream, uint8_t data, size_t offset) const;
-	void overwrite_bytes_be(std::vector<uint8_t>& stream, uint16_t data, size_t offset) const;
-	void overwrite_bytes_be(std::vector<uint8_t> &stream, uint32_t data, size_t offset) const;
-	void overwrite_bytes_be(std::vector<uint8_t>& stream, int32_t data, size_t offset) const;
-	void overwrite_bytes_le(std::vector<uint8_t>& stream, uint16_t data, size_t offset) const;
-	void overwrite_bytes_le(std::vector<uint8_t>& stream, uint32_t data, size_t offset) const;
-	void overwrite_bytes_le(std::vector<uint8_t>& stream, int32_t data, size_t offset) const;
 };
 

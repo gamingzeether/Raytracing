@@ -145,6 +145,7 @@
     <ClCompile Include="lightsource.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="plane.cpp" />
+    <ClCompile Include="pngwriter.cpp" />
     <ClCompile Include="postprocessing.cpp" />
     <ClCompile Include="ray.cpp" />
     <ClCompile Include="Raytracing.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="lightsource.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="plane.h" />
+    <ClInclude Include="pngwriter.h" />
     <ClInclude Include="postprocessing.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="shape.h" />
