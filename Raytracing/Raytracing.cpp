@@ -209,7 +209,7 @@ int main() {
 
     std::cout << "\nWriting image to file";
     std::cout << "\n";
-    image.write_to_file("image.ppm");
+    image.write_to_file_bmp("image.bmp");
 
     return 0;
 }
