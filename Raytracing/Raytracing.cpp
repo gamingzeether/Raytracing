@@ -41,9 +41,9 @@ const int image_height = 256;
 const int max_sample_rays = 10;
 #else
 #ifdef HIGH_QUALITY
-const int image_width = 2048;
-const int image_height = 2048;
-const int max_sample_rays = 15;
+const int image_width = 4096;
+const int image_height = 4096;
+const int max_sample_rays = 5;
 #else
 const int image_width = 512;
 const int image_height = 512;
@@ -117,8 +117,8 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
                     vec3 vec_to_light = light->position() - closest_intersect.position;
                     float distance = vec_to_light.length();
                     float radius = light->radius();
-                    float dot = vec3::dot(view_reflected, vec_to_light.normalized()) * roughness;
-                    float strength = std::max<float>(0, dot * pow((radius - distance) / radius, light->falloff()) * light->intensity());
+                    float dot = vec3::dot(closest_intersect.normal, vec_to_light.normalized());
+                    float strength = std::max<float>(0, dot * roughness * pow((radius - distance) / radius, light->falloff()) * light->intensity());
                     incoming_light += light->light_color() * strength;
                 }
                 incoming_light /= lights.size();
@@ -129,7 +129,7 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
         c = color(c.r() * incoming_light.r(), c.g() * incoming_light.g(), c.b() * incoming_light.b()) * reflectivity;
     } else {
         // Sky color
-        c = color(0.8, 0.83, 1.0);
+        c = color(0.8, 0.8, 0.8);
     }
 
     return c;
@@ -150,7 +150,7 @@ int main() {
     p3.set_orientation(quaternion::from_axis_angle(vec3(1, 0, 0), 45 * DEG_TO_RAD));
 
     // Create lights
-    lightsource l1 = lightsource(pos3(  0,   0,  -3), color(1.0, 1.0, 1.0), 10, 2, 1.0);
+    lightsource l1 = lightsource(pos3(  0,   0,  -3), color(1.0, 1.0, 1.0), 10, 1, 0.75);
     lights = { &l1 };
 
     // Render image
