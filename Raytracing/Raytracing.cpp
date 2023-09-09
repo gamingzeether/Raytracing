@@ -19,7 +19,6 @@
  #define DISPLAY_PROGRESS
  #define HIGH_QUALITY
 // #define LOW_QUALITY
- #define MULTITHREADED
 
 #ifdef HIGH_QUALITY
 #undef LOW_QUALITY
@@ -29,11 +28,6 @@
 #define PI 3.1415926535897932385
 #define RAD_TO_DEG (PI / 180)
 #define DEG_TO_RAD (180 / PI)
-
-// Constants from defines
-#ifdef MULTITHREADED
-const int thread_count = 8;
-#endif
 
 #ifdef LOW_QUALITY
 const int image_width = 256;
@@ -53,6 +47,7 @@ const int max_sample_rays = 20;
 const int max_recur = 3;
 const int color_max = 255;
 const int cam_rays_per_pixel = 2;
+const int thread_count = 8;
 
 camera cam = camera(image_width / image_height, image_height, 20, 10);
 std::vector<lightsource*> lights;
@@ -157,7 +152,6 @@ int main() {
     frame image = frame(image_height, image_width);
 
     std::cout << "Rendering image";
-#ifdef MULTITHREADED
     int rows_per_thread = image_height / thread_count;
     std::vector<std::thread> threads = std::vector<std::thread>();
     for (int i = 0; i < thread_count; i++) {
@@ -187,20 +181,6 @@ int main() {
             t.join();
         }
     }
-#else
-    std::cout << "\n";
-    for (int pixel_y = 0; pixel_y < image_height; pixel_y++) {
-        for (int pixel_x = 0; pixel_x < image_width; pixel_x++) {
-            ray pixel_ray = cam.pixel_to_ray(pixel_x, pixel_y);
-            color pixel_color = ray_color(pixel_ray, 0, -1) * color_max;
-
-            image.set_pixel(pixel_x, pixel_y, pixel_color);
-        }
-#ifdef DISPLAY_PROGRESS
-        std::cout << "\r" << float(pixel_y) / image_height << std::flush;
-#endif
-    }
-#endif
 
     std::cout << "\nPerforming postprocessing";
     std::cout << "\n";
