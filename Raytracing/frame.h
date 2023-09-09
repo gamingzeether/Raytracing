@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "vec3.h"
-#include "pngwriter.h"
+#include "bmpwriter.h"
 
 #define COLOR_MAX 255
 

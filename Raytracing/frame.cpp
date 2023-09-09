@@ -28,8 +28,8 @@ void frame::write_to_file_bmp(std::string path) const {
 	remove(path.c_str());
 	std::ofstream file_stream = std::ofstream(path, std::ios::binary);
 
-	std::vector<uint8_t>* png_data = pngwriter::png_bytes(width(), height(), pixels);
+	std::vector<uint8_t>* bmp_data = bmpwriter::bmp_bytes(width(), height(), pixels);
 
-	file_stream.write((char*)(png_data->data()), png_data->size());
+	file_stream.write((char*)(bmp_data->data()), bmp_data->size());
 	file_stream.close();
 }

@@ -4,10 +4,10 @@
 
 #include "vec3.h"
 
-class pngwriter
+class bmpwriter
 {
 public:
-	static std::vector<uint8_t>* png_bytes(int width, int height, const color* pixelData);
+	static std::vector<uint8_t>* bmp_bytes(int width, int height, const color* pixelData);
 private:
 	static void overwrite_bytes(std::vector<uint8_t>& stream, uint8_t data, size_t offset);
 	static void overwrite_bytes_be(std::vector<uint8_t>& stream, uint16_t data, size_t offset);

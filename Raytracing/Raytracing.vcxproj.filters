@@ -54,7 +54,7 @@
     <ClCompile Include="vec4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pngwriter.cpp">
+    <ClCompile Include="bmpwriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,7 +95,7 @@
     <ClInclude Include="vec4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pngwriter.h">
+    <ClInclude Include="bmpwriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
-#include "pngwriter.h"
+#include "bmpwriter.h"
 
-std::vector<uint8_t>* pngwriter::png_bytes(int width, int height, const color* pixelData) {
+std::vector<uint8_t>* bmpwriter::bmp_bytes(int width, int height, const color* pixelData) {
 	std::vector<uint8_t> bytes = std::vector<uint8_t>();
 
 	uint32_t offset = 0;
@@ -79,42 +79,42 @@ std::vector<uint8_t>* pngwriter::png_bytes(int width, int height, const color* p
 	return &bytes;
 }
 
-void pngwriter::overwrite_bytes(std::vector<uint8_t>& stream, uint8_t data, size_t offset) {
+void bmpwriter::overwrite_bytes(std::vector<uint8_t>& stream, uint8_t data, size_t offset) {
 	stream[offset] = data;
 }
 
-void pngwriter::overwrite_bytes_be(std::vector<uint8_t>& stream, uint16_t data, size_t offset) {
+void bmpwriter::overwrite_bytes_be(std::vector<uint8_t>& stream, uint16_t data, size_t offset) {
 	stream[offset + 1] = (uint8_t)((data & 0x00FFu) >> 0);
 	stream[offset + 0] = (uint8_t)((data & 0xFF00u) >> 8);
 }
 
-void pngwriter::overwrite_bytes_be(std::vector<uint8_t>& stream, uint32_t data, size_t offset) {
+void bmpwriter::overwrite_bytes_be(std::vector<uint8_t>& stream, uint32_t data, size_t offset) {
 	stream[offset + 3] = (uint8_t)((data & 0x000000FFu) >> 0);
 	stream[offset + 2] = (uint8_t)((data & 0x0000FF00u) >> 8);
 	stream[offset + 1] = (uint8_t)((data & 0x00FF0000u) >> 16);
 	stream[offset + 0] = (uint8_t)((data & 0xFF000000u) >> 24);
 }
 
-void pngwriter::overwrite_bytes_be(std::vector<uint8_t>& stream, int32_t data, size_t offset) {
+void bmpwriter::overwrite_bytes_be(std::vector<uint8_t>& stream, int32_t data, size_t offset) {
 	stream[offset + 3] = (uint8_t)((data & 0x000000FFu) >> 0);
 	stream[offset + 2] = (uint8_t)((data & 0x0000FF00u) >> 8);
 	stream[offset + 1] = (uint8_t)((data & 0x00FF0000u) >> 16);
 	stream[offset + 0] = (uint8_t)((data & 0xFF000000u) >> 24);
 }
 
-void pngwriter::overwrite_bytes_le(std::vector<uint8_t>& stream, uint16_t data, size_t offset) {
+void bmpwriter::overwrite_bytes_le(std::vector<uint8_t>& stream, uint16_t data, size_t offset) {
 	stream[offset + 0] = (uint8_t)((data & 0x00FFu) >> 0);
 	stream[offset + 1] = (uint8_t)((data & 0xFF00u) >> 8);
 }
 
-void pngwriter::overwrite_bytes_le(std::vector<uint8_t>& stream, uint32_t data, size_t offset) {
+void bmpwriter::overwrite_bytes_le(std::vector<uint8_t>& stream, uint32_t data, size_t offset) {
 	stream[offset + 0] = (uint8_t)((data & 0x000000FFu) >> 0);
 	stream[offset + 1] = (uint8_t)((data & 0x0000FF00u) >> 8);
 	stream[offset + 2] = (uint8_t)((data & 0x00FF0000u) >> 16);
 	stream[offset + 3] = (uint8_t)((data & 0xFF000000u) >> 24);
 }
 
-void pngwriter::overwrite_bytes_le(std::vector<uint8_t>& stream, int32_t data, size_t offset) {
+void bmpwriter::overwrite_bytes_le(std::vector<uint8_t>& stream, int32_t data, size_t offset) {
 	stream[offset + 0] = (uint8_t)((data & 0x000000FFu) >> 0);
 	stream[offset + 1] = (uint8_t)((data & 0x0000FF00u) >> 8);
 	stream[offset + 2] = (uint8_t)((data & 0x00FF0000u) >> 16);
