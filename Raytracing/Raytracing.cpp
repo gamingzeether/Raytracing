@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <thread>
+#include <chrono>
 #include <vector>
 
 #include "aabb.h"
@@ -44,7 +45,7 @@ const int image_height = 512;
 const int max_sample_rays = 20;
 #endif
 #endif
-const int max_recur = 3;
+const int max_recur = 4;
 const int color_max = 255;
 const int cam_rays_per_pixel = 2;
 const int thread_count = 8;
@@ -151,28 +152,96 @@ int main() {
     // Render image
     frame image = frame(image_height, image_width);
 
-    std::cout << "Rendering image";
-    int rows_per_thread = image_height / thread_count;
-    std::vector<std::thread> threads = std::vector<std::thread>();
-    for (int i = 0; i < thread_count; i++) {
-        threads.push_back(std::thread([&image](int row_start, int count) {
-            for (int pixel_y = row_start; pixel_y < row_start + count; pixel_y++) {
-                for (int pixel_x = 0; pixel_x < image_width; pixel_x++) {
-                    ray pixel_ray = cam.pixel_to_ray(pixel_x, pixel_y);
-                    color pixel_color = color();
-                    
-                    for (int p = 0; p < cam_rays_per_pixel; p++) {
-                        pixel_color += ray_color(pixel_ray, 0, -1)* color_max;
-                    }
-                    pixel_color /= cam_rays_per_pixel;
+    std::cout << "Rendering image\n";
 
-                    image.set_pixel(pixel_x, pixel_y, pixel_color);
+    std::vector<std::thread> threads = std::vector<std::thread>();
+    // Assigner thread
+    bool threads_working = true;
+    std::vector<int> assignment_map = std::vector<int>(); // scaled down 1D representation of image
+    threads.push_back(std::thread([&image, &assignment_map, &threads_working](int width, int height) {
+        // -2 = unassigned, -1 = complete, other = assigned thread
+        for (int i = 0; i < (thread_count * 2); i++) {
+            for (int j = 0; j < (thread_count * 2); j++) {
+                assignment_map.push_back(-2);
+            }
+        }
+
+        int count[thread_count];
+        bool working = true;
+        while (working) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            for (int i = 0; i < thread_count; i++) {
+                count[i] = 0;
+            }
+            // Check assignment map for completion or find threads that need assigning
+            working = false;
+            int count_complete = 0;
+            for (int i = 0; i < assignment_map.size(); i++) {
+                if (assignment_map[i] != -1) {
+                    working = true;
+                } else {
+                    count_complete++;
                 }
+                count[assignment_map[i]]++;
             }
 #ifdef DISPLAY_PROGRESS
-            std::cout << "\nThread completed: " << std::this_thread::get_id();
+            std::cout << "\r" << (int)((float(count_complete) / assignment_map.size()) * 100) << std::flush;
 #endif
-            }, i * rows_per_thread, rows_per_thread
+
+            // Assign chunks to threads
+            for (int i = 0; i < assignment_map.size(); i++) {
+                if (assignment_map[i] == -2) {
+                    for (int j = 0; j < thread_count; j++) {
+                        if (count[j] < 8) {
+                            assignment_map[i] = j;
+                            count[j]++;
+                            break;
+                        }
+                    }
+                }
+                if (count[thread_count - 1] == 8) {
+                    break;
+                }
+            }
+        }
+        threads_working = false;
+        }, image_width, image_height
+    ));
+
+    const int chunk_width = image_width / (thread_count * 2);
+    const int chunk_height = image_height / (thread_count * 2);
+    for (int i = 0; i < thread_count; i++) {
+        threads.push_back(std::thread([&image, &assignment_map, &threads_working](int id) {
+            while (threads_working) {
+                for (int i = 0; i < assignment_map.size(); i++) {
+                    if (assignment_map[i] == id) {
+                        // Calculate starting location
+                        int start_x = (i % (thread_count * 2)) * chunk_width;
+                        int start_y = (i / (thread_count * 2)) * chunk_height;
+                        // Render
+                        for (int offset_x = 0; offset_x < chunk_width; offset_x++) {
+                            for (int offset_y = 0; offset_y < chunk_height; offset_y++) {
+                                int pixel_x = start_x + offset_x;
+                                int pixel_y = start_y + offset_y;
+
+                                ray pixel_ray = cam.pixel_to_ray(pixel_x, pixel_y);
+                                color pixel_color = color();
+
+                                for (int p = 0; p < cam_rays_per_pixel; p++) {
+                                    pixel_color += ray_color(pixel_ray, 0, -1) * color_max;
+                                }
+                                pixel_color /= cam_rays_per_pixel;
+
+                                image.set_pixel(pixel_x, pixel_y, pixel_color);
+                            }
+                        }
+                        // Mark complete
+                        assignment_map[i] = -1;
+                    }
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            }, i
         ));
     }
 
