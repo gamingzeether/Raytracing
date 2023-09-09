@@ -17,7 +17,7 @@
 
 // Defines
  #define DISPLAY_PROGRESS
-// #define HIGH_QUALITY
+ #define HIGH_QUALITY
 // #define LOW_QUALITY
  #define MULTITHREADED
 
@@ -41,9 +41,9 @@ const int image_height = 256;
 const int max_sample_rays = 10;
 #else
 #ifdef HIGH_QUALITY
-const int image_width = 1024;
-const int image_height = 1024;
-const int max_sample_rays = 30;
+const int image_width = 2048;
+const int image_height = 2048;
+const int max_sample_rays = 15;
 #else
 const int image_width = 512;
 const int image_height = 512;

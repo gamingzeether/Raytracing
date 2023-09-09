@@ -25,11 +25,5 @@ void frame::write_to_file(std::string path) const {
 }
 
 void frame::write_to_file_bmp(std::string path) const {
-	remove(path.c_str());
-	std::ofstream file_stream = std::ofstream(path, std::ios::binary);
-
-	std::vector<uint8_t>* bmp_data = bmpwriter::bmp_bytes(width(), height(), pixels);
-
-	file_stream.write((char*)(bmp_data->data()), bmp_data->size());
-	file_stream.close();
+	bmpwriter::bmp_write(path, width(), height(), pixels);
 }

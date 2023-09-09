@@ -1,6 +1,6 @@
 #include "bmpwriter.h"
 
-std::vector<uint8_t>* bmpwriter::bmp_bytes(int width, int height, const color* pixelData) {
+void bmpwriter::bmp_write(std::string path, int width, int height, const color* pixelData) {
 	std::vector<uint8_t> bytes = std::vector<uint8_t>();
 
 	uint32_t offset = 0;
@@ -76,7 +76,9 @@ std::vector<uint8_t>* bmpwriter::bmp_bytes(int width, int height, const color* p
 	// File size
 	overwrite_bytes_le(bytes, (uint32_t)bytes.size(), 2);
 
-	return &bytes;
+	std::ofstream file_stream = std::ofstream(path, std::ios::binary);
+	file_stream.write((char*)(bytes.data()), bytes.size());
+	file_stream.close();
 }
 
 void bmpwriter::overwrite_bytes(std::vector<uint8_t>& stream, uint8_t data, size_t offset) {
