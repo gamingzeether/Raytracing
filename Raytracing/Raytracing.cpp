@@ -16,7 +16,7 @@
 #include "vec3.h"
 #include "postprocessing.h"
 
-// Defines
+// Settings defines
  #define DISPLAY_PROGRESS
  #define HIGH_QUALITY
 // #define LOW_QUALITY
@@ -31,24 +31,26 @@
 #define DEG_TO_RAD (180 / PI)
 
 #ifdef LOW_QUALITY
-const int image_width = 256;
-const int image_height = 256;
-const int max_sample_rays = 10;
-#else
-#ifdef HIGH_QUALITY
-const int image_width = 4096;
-const int image_height = 4096;
-const int max_sample_rays = 5;
-#else
+const int max_recur = 3;
 const int image_width = 512;
 const int image_height = 512;
-const int max_sample_rays = 20;
+const int max_sample_rays = 3;
+#else
+#ifdef HIGH_QUALITY
+const int max_recur = 10;
+const int image_width = 4096;
+const int image_height = 4096;
+const int max_sample_rays = 3;
+#else
+const int max_recur = 3;
+const int image_width = 1024;
+const int image_height = 1024;
+const int max_sample_rays = 3;
 #endif
 #endif
-const int max_recur = 4;
 const int color_max = 255;
-const int cam_rays_per_pixel = 2;
-const int thread_count = 8;
+const int cam_rays_per_pixel = 3;
+const int thread_count = 16;
 
 camera cam = camera(image_width / image_height, image_height, 20, 10);
 std::vector<lightsource*> lights;
