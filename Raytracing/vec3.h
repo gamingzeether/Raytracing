@@ -2,10 +2,13 @@
 
 #include <cmath>
 
+#include "vec2.h"
+
 class vec3 {
 public:
 	vec3() : e{ 0,0,0 } {}
 	vec3(float x, float y, float z) : e{ x,y,z } {};
+	vec3(vec2 v) : e{ v.x(),0,v.y() } {}
 
 	inline float& operator[](int i) { return e[i]; }
 	inline float operator[](int i) const { return e[i]; }

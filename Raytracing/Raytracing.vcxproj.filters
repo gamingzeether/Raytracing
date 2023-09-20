@@ -57,6 +57,12 @@
     <ClCompile Include="bmpwriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vec2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec3.h">
@@ -96,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bmpwriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
