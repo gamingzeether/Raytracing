@@ -1,6 +1,6 @@
 #include "postprocessing.h"
 
-void postprocessing::blur(frame& image, int radius) {
+void postprocessing::blur(frame& image, int radius, float strength) {
 	frame temp = frame(image.height(), image.width());
 	for (int i = 0; i < image.width(); i++) {
 		for (int j = 0; j < image.height(); j++) {
@@ -17,7 +17,7 @@ void postprocessing::blur(frame& image, int radius) {
 				}
 			}
 			c /= sampledPixels;
-			temp.set_pixel(i, j, c);
+			temp.set_pixel(i, j, color::lerp(image.get_pixel(i, j), c, strength));
 		}
 	}
 	image = temp;

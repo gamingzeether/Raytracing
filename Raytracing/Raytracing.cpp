@@ -270,7 +270,7 @@ int main() {
 
     std::cout << "\nPerforming postprocessing";
     std::cout << "\n";
-    // postprocessing::blur(image, 1);
+    //postprocessing::blur(image, 2, 0.25);
     postprocessing::brightness_adjust(image, 10.0);
 
     std::cout << "\nWriting image to file";

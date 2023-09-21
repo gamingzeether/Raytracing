@@ -7,7 +7,7 @@
 /// </summary>
 class postprocessing {
 public:
-	static void blur(frame& image, int radius);
+	static void blur(frame& image, int radius, float strength);
 	static void brightness_adjust(frame& image, float brightness);
 private:
 };
