@@ -31,4 +31,5 @@ void shape::update_bounding_box() {
 
 void shape::set_orientation(quaternion orientation) {
 	ori = orientation;
+	update_bounding_box();
 }

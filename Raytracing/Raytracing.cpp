@@ -72,6 +72,10 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
         }
         const shape* s = all_shapes[i];
 
+        if (!s->bounding_box().ray_intersects(light_ray)) {
+            continue;
+        }
+
         shape::intersect_info intersect = s->ray_intersects(light_ray);
         if (intersect.distance >= 0) {
             if (closest_intersect.distance < 0 || intersect.distance < closest_intersect.distance) {

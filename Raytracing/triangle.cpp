@@ -62,5 +62,7 @@ bool triangle::is_inside(const pos3& point) const {
 }
 
 void triangle::update_bounding_box() {
-
+    vec4 ori_conjugate = ori.conjugate();
+    vec3 real_points[3] = { pos + ori_conjugate.rotate(points[0]), pos + ori_conjugate.rotate(points[1]), pos + ori_conjugate.rotate(points[2]) };
+    box = aabb(real_points, 3);
 }

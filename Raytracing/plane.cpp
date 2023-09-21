@@ -39,6 +39,11 @@ bool plane::is_inside(const pos3& point) const {
 }
 
 void plane::update_bounding_box() {
-	vec3 vec = vec3(half_w, 0, half_h);
-	box = aabb(pos - vec, pos + vec);
+	pos3 p1 = pos + ori.rotate(pos3(half_w, 0, half_h));
+	pos3 p2 = pos + ori.rotate(pos3(half_w, 0, -half_h));
+	pos3 p3 = pos + ori.rotate(pos3(-half_w, 0, half_h));
+	pos3 p4 = pos + ori.rotate(pos3(-half_w, 0, -half_h));
+	const pos3 arr[4] = { p1, p2, p3, p4 };
+
+	box = aabb(arr, 4);
 }
