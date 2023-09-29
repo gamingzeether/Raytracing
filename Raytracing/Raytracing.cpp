@@ -57,6 +57,9 @@ camera cam = camera(image_width / image_height, image_height, 20, 10);
 std::vector<lightsource*> lights;
 std::vector<shape*> all_shapes;
 
+vec3* pregenerated_random_vectors;
+const int pregenerated_random_vectors_size = 256;
+
 inline double rand01() {
     return double(rand()) / RAND_MAX;
 }
@@ -100,7 +103,7 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
             vec3 ray_vector, half_angle_vec;
             ray sample_ray;
             for (int i = 0; i < sample_rays; i++) {
-                ray_vector = vec3(rand01() * 2 - 1, rand01() * 2 - 1, rand01() * 2 - 1).normalized() * roughness + view_reflected;
+                ray_vector = pregenerated_random_vectors[rand() % pregenerated_random_vectors_size] * roughness + view_reflected;
                 ray_vector.normalize();
                 if (vec3::dot(ray_vector, closest_intersect.normal) <= 0) {
                     continue;
@@ -216,6 +219,11 @@ int main() {
         threads_working = false;
         }, image_width, image_height
     ));
+
+    pregenerated_random_vectors = new vec3[pregenerated_random_vectors_size];
+    for (int i = 0; i < pregenerated_random_vectors_size; i++) {
+        pregenerated_random_vectors[i] = vec3(rand01() * 2 - 1, rand01() * 2 - 1, rand01() * 2 - 1).normalized();
+    }
 
     const int chunk_width = image_width / (thread_count * 2);
     const int chunk_height = image_height / (thread_count * 2);
