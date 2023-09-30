@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.h" />
+    <ClInclude Include="array2d.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="frame.h" />
     <ClInclude Include="lightsource.h" />
