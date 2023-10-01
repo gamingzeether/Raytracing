@@ -9,5 +9,6 @@ class postprocessing {
 public:
 	static void blur(frame& image, int radius, float strength);
 	static void brightness_adjust(frame& image, float brightness);
+	static void noise_reduction(frame& image, const array2d<int>& shape_id, float strength);
 private:
 };

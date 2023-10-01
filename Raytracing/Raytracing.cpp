@@ -58,13 +58,13 @@ std::vector<lightsource*> lights;
 std::vector<shape*> all_shapes;
 
 vec3* pregenerated_random_vectors;
-const int pregenerated_random_vectors_size = 256;
+const int pregenerated_random_vectors_size = 512;
 
 inline double rand01() {
     return double(rand()) / RAND_MAX;
 }
 
-color ray_color(const ray& light_ray, int recur_depth, int ignore) {
+color ray_color(const ray& light_ray, int recur_depth, int ignore, OUT int& shape_id) {
     vec3 ray_direction = light_ray.direction().normalized();
 
     // Check if ray intersects with any shapes
@@ -90,6 +90,7 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
     // Calculate color from intersection
     color c;
     if (closest_intersect.distance >= 0) {
+        shape_id = closest_intersect.shape_id;
         shape* intersect_shape = all_shapes[closest_intersect.shape_id];
         float roughness = intersect_shape->shape_material().material_roughness();
         c = intersect_shape->shape_material().material_color();
@@ -110,9 +111,14 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
                 }
                 sample_ray = ray(closest_intersect.position, ray_vector * 100);
 
-                color sample_color = ray_color(sample_ray, recur_depth + 1, closest_intersect.shape_id);
+                int secondary_shape_id = -1;
+                color sample_color = ray_color(sample_ray, recur_depth + 1, closest_intersect.shape_id, secondary_shape_id);
 
                 incoming_light += sample_color;
+
+                if (intersect_shape->shape_material().material_roughness() <= 0.05) {
+                    shape_id = secondary_shape_id;
+                }
             }
             incoming_light /= sample_rays;
 
@@ -134,6 +140,7 @@ color ray_color(const ray& light_ray, int recur_depth, int ignore) {
         float reflectivity = intersect_shape->shape_material().material_reflectivity();
         c = color(c.r() * incoming_light.r(), c.g() * incoming_light.g(), c.b() * incoming_light.b()) * reflectivity;
     } else {
+        shape_id = -1;
         // Sky color
         c = color(0.8, 0.8, 0.8);
     }
@@ -163,6 +170,7 @@ int main() {
 
     // Render image
     frame image = frame(image_height, image_width);
+    array2d<int> pixel_shape = array2d<int>(image_height, image_width);
 
     std::cout << "Rendering image\n";
 
@@ -228,7 +236,7 @@ int main() {
     const int chunk_width = image_width / (thread_count * 2);
     const int chunk_height = image_height / (thread_count * 2);
     for (int i = 0; i < thread_count; i++) {
-        threads.push_back(std::thread([&image, &assignment_map, &threads_working](int id) {
+        threads.push_back(std::thread([&image, &assignment_map, &threads_working, &pixel_shape](int id) {
             while (threads_working) {
                 for (int i = 0; i < assignment_map.size(); i++) {
                     if (assignment_map[i] == id) {
@@ -244,12 +252,14 @@ int main() {
                                 ray pixel_ray = cam.pixel_to_ray(pixel_x, pixel_y);
                                 color pixel_color = color();
 
+                                int pixel_shape_id = -1;
                                 for (int p = 0; p < cam_rays_per_pixel; p++) {
-                                    pixel_color += ray_color(pixel_ray, 0, -1) * color_max;
+                                    pixel_color += ray_color(pixel_ray, 0, -1, OUT pixel_shape_id) * color_max;
                                 }
                                 pixel_color /= cam_rays_per_pixel;
 
                                 image.set_pixel(pixel_x, pixel_y, pixel_color);
+                                pixel_shape.set(pixel_x, pixel_y, pixel_shape_id);
                             }
                         }
                         // Mark complete
@@ -271,6 +281,7 @@ int main() {
     std::cout << "\nPerforming postprocessing";
     std::cout << "\n";
     //postprocessing::blur(image, 2, 0.25);
+    postprocessing::noise_reduction(image, pixel_shape, 0.75);
     postprocessing::brightness_adjust(image, 10.0);
 
     std::cout << "\nWriting image to file";
