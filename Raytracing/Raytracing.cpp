@@ -280,9 +280,16 @@ int main() {
 
     std::cout << "\nPerforming postprocessing";
     std::cout << "\n";
-    //postprocessing::blur(image, 2, 0.25);
-    postprocessing::noise_reduction(image, pixel_shape, 0.75);
-    postprocessing::brightness_adjust(image, 10.0);
+    postprocessing_settings pp_settings;
+    pp_settings.brightness_enabled = true;
+    pp_settings.brightness_adjust = 10.0;
+    pp_settings.blur_enabled = false;
+    pp_settings.blur_radius = 2;
+    pp_settings.blur_strength = 0.25;
+    pp_settings.noise_enabled = true;
+    pp_settings.noise_radius = 5;
+    pp_settings.noise_strength = 0.75;
+    postprocessing::process(image, pixel_shape, pp_settings);
 
     std::cout << "\nWriting image to file";
     std::cout << "\n";

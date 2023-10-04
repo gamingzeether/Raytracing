@@ -2,13 +2,23 @@
 
 #include "frame.h"
 
+struct postprocessing_settings {
+	bool blur_enabled;
+	int blur_radius;
+	float blur_strength;
+
+	bool brightness_enabled;
+	float brightness_adjust;
+
+	bool noise_enabled;
+	float noise_strength;
+	int noise_radius;
+};
+
 /// <summary>
 /// Static class that performs postprocessing on an image
 /// </summary>
 class postprocessing {
 public:
-	static void blur(frame& image, int radius, float strength);
-	static void brightness_adjust(frame& image, float brightness);
-	static void noise_reduction(frame& image, const array2d<int>& shape_id, float strength);
-private:
+	static void process(frame& image, const array2d<int>& shape_id, const postprocessing_settings& settings);
 };
