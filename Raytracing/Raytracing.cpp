@@ -281,14 +281,16 @@ int main() {
     std::cout << "\nPerforming postprocessing";
     std::cout << "\n";
     postprocessing_settings pp_settings;
-    pp_settings.brightness_enabled = true;
-    pp_settings.brightness_adjust = 10.0;
-    pp_settings.blur_enabled = false;
+    pp_settings.noise_enabled = true;
+    pp_settings.noise_luminance_radius = 3;
+    pp_settings.noise_luminance_strength = 0.25;
+    pp_settings.noise_chroma_radius = 3;
+    pp_settings.noise_chroma_strength = 0.75;
+    pp_settings.blur_enabled = true;
     pp_settings.blur_radius = 2;
     pp_settings.blur_strength = 0.25;
-    pp_settings.noise_enabled = true;
-    pp_settings.noise_radius = 5;
-    pp_settings.noise_strength = 0.75;
+    pp_settings.brightness_enabled = true;
+    pp_settings.brightness_adjust = 0.04;
     postprocessing::process(image, pixel_shape, pp_settings);
 
     std::cout << "\nWriting image to file";

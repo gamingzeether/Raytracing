@@ -63,3 +63,4 @@ private:
 
 using pos3 = vec3;
 using color = vec3;
+using color_ycbcr = vec3;
