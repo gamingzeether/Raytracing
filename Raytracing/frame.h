@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 
+#include "array2d.h"
 #include "vec3.h"
 #include "bmpwriter.h"
 
@@ -10,17 +11,15 @@
 
 class frame {
 public:
-	frame(int height, int width) : h(height), w(width), pixels(new color[height * width]) {}
+	frame(int height, int width) : bitmap{ array2d<color>(height, width) } {}
 
-	int height() const { return h; };
-	int width() const { return w; };
+	int height() const { return bitmap.height(); };
+	int width() const { return bitmap.width(); };
 	color get_pixel(int x, int y) const;
 	void set_pixel(int x, int y, color c);
 	void write_to_file(std::string path) const;
 	void write_to_file_bmp(std::string path) const;
 private:
-	int h;
-	int w;
-	color* pixels;
+	array2d<color> bitmap;
 };
 

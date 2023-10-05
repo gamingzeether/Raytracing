@@ -116,10 +116,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +149,7 @@
     <ClCompile Include="frame.cpp" />
     <ClCompile Include="lightsource.cpp" />
     <ClCompile Include="material.cpp" />
+    <ClCompile Include="matrix.cpp" />
     <ClCompile Include="plane.cpp" />
     <ClCompile Include="bmpwriter.cpp" />
     <ClCompile Include="postprocessing.cpp" />
@@ -163,10 +164,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.h" />
+    <ClInclude Include="array2d.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="frame.h" />
     <ClInclude Include="lightsource.h" />
     <ClInclude Include="material.h" />
+    <ClInclude Include="matrix.h" />
     <ClInclude Include="plane.h" />
     <ClInclude Include="bmpwriter.h" />
     <ClInclude Include="postprocessing.h" />
