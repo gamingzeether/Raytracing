@@ -46,11 +46,10 @@ void postprocessing::process(frame& image, const array2d<int>& shape_id, const p
 	color_matrix_inverse.set(2, 2, 0);
 
 	// Convert to YCbCr
+	const double inv_color_max = 1.0 / COLOR_MAX;
 	for (int pixel_x = 0; pixel_x < width; pixel_x++) {
 		for (int pixel_y = 0; pixel_y < height; pixel_y++) {
-			matrix color = matrix(image.get_pixel(pixel_x, pixel_y));
-			color = color.scalar_multiply(1.0 / COLOR_MAX);
-			ycbcr.set(pixel_x, pixel_y, (color_matrix.matrix_multiply(color)).vector3());
+			ycbcr.set(pixel_x, pixel_y, color_matrix.matrix_multiply(image.get_pixel(pixel_x, pixel_y) * inv_color_max));
 		}
 	}
 
@@ -135,7 +134,7 @@ void postprocessing::process(frame& image, const array2d<int>& shape_id, const p
 			}
 
 			// Convert back and clamp rgb values
-			c = (color_matrix_inverse.matrix_multiply(c)).vector3();
+			c = color_matrix_inverse.matrix_multiply(c);
 			c *= COLOR_MAX;
 			float r = max(0, min(255, c.r()));
 			float g = max(0, min(255, c.g()));

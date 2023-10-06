@@ -15,6 +15,7 @@ public:
 	matrix scalar_multiply(float scalar);
 	matrix transpose();
 	const matrix matrix_multiply(const matrix& other);
+	const vec3 matrix_multiply(const vec3& other);
 private:
 	int rows;
 	int columns;

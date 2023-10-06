@@ -49,3 +49,21 @@ const matrix matrix::matrix_multiply(const matrix& other) {
 	}
 	return new_matrix;
 }
+
+const vec3 matrix::matrix_multiply(const vec3& other) {
+	if (this->columns != 3) {
+		throw;
+	}
+
+	vec3 output = vec3();
+	for (int r = 0; r < 3; r++) {
+		float sum = 0;
+		for (int i = 0; i < this->columns; i++) {
+			float a = this->get(r, i);
+			float b = other[i];
+			sum += a * b;
+		}
+		output[r] = sum;
+	}
+	return output;
+}
