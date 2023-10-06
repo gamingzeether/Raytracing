@@ -10,12 +10,11 @@
 #include "lightsource.h"
 #include "material.h"
 #include "plane.h"
-#include "ray.h"
 #include "sphere.h"
 #include "shape.h"
 #include "triangle.h"
-#include "vec3.h"
 #include "postprocessing.h"
+#include "rectangularprism.h"
 
 // Settings defines
  #define DISPLAY_PROGRESS
@@ -159,10 +158,12 @@ int main() {
     plane p2 = plane(pos3( 0.0,  0.5, -5.0),   3,   3, material(0.70, 1.0, color(0.9, 0.5, 0.5)));
     plane p3 = plane(pos3( 3.0,  0.5, -5.0),   3,   3, material(0.00, 1.0, color(1.0, 0.9, 0.9)));
     triangle t1 = triangle(pos3(-3.0, 2.0, -5.0), vec3(0, 0, 2), vec3(-1, 0, 0), vec3(1, 0, 0), material(0.00, 1.0, color(0.4, 0.4, 0.4)));
+    rectangularprism rp1 = rectangularprism(pos3(-3.0, 1.0, -4), 0.5, 0.5, 0.5, material(0.00, 0.8, color(1.0, 1.0, 1.0)));
     p2.set_orientation(quaternion::from_axis_angle(vec3(0, 1, 0), 30 * DEG_TO_RAD));
-    p3.set_orientation(quaternion::from_axis_angle(vec3(1, 0, 0), 45 * DEG_TO_RAD));
-    t1.set_orientation(quaternion::from_axis_angle(vec3(1, 0, 0), -45 * DEG_TO_RAD));
-    all_shapes = { &s1, &s2, &s3, &s4, &s5, &p1, &p2, &p3, &t1 };
+    p3.set_orientation(quaternion::from_axis_angle(vec3(1, 0, 0), -45 * DEG_TO_RAD));
+    t1.set_orientation(quaternion::from_axis_angle(vec3(1, 0, 0), 45 * DEG_TO_RAD));
+    rp1.set_orientation(quaternion::from_axis_angle(vec3(0, 1, 0), -45 * DEG_TO_RAD));
+    all_shapes = { &s1, &s2, &s3, &s4, &s5, &p1, &p2, &p3, &t1, &rp1};
 
     // Create lights
     lightsource l1 = lightsource(pos3(  0,   0,  -3), color(1.0, 1.0, 1.0), 10, 1, 0.75);

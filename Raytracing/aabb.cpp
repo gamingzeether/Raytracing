@@ -8,6 +8,10 @@ static inline float max(float x, float y) {
 	return x > y ? x : y;
 }
 
+inline bool between(float low, float high, float test) {
+	return test >= low && test <= high;
+}
+
 aabb::aabb(const pos3* points, int count) {
 	float min_x = INFINITY;
 	float min_y = INFINITY;
@@ -30,10 +34,6 @@ aabb::aabb(const pos3* points, int count) {
 	corners[1] = pos3(max_x, max_y, max_z);
 }
 
-inline bool between(float low, float high, float test) {
-	return test >= low && test <= high;
-}
-
 bool aabb::point_inside(const pos3& point) const {
 	return between(corners[0].x(), corners[1].x(), point.x()) &&
 		between(corners[0].y(), corners[1].y(), point.y()) &&
@@ -52,16 +52,6 @@ bool aabb::ray_intersects(const ray& r) const {
 	const vec3 ray_direction_inv = vec3(1 / r.direction().x(), 1 / r.direction().y(), 1 / r.direction().z());
 	float tmin = 0.0;
 	float tmax = INFINITY;
-
-	/*
-	for (int d = 0; d < 3; d++) {
-		bool sign = signbit(ray_direction_inv[d]);
-		float dmin = (corners[sign][d] - ray_origin[d]) * ray_direction_inv[d];
-		float dmax = (corners[!sign][d] - ray_origin[d]) * ray_direction_inv[d];
-		tmin = max(dmin, tmin);
-		tmax = min(dmax, tmax);
-	}
-	*/
 
 	bool sign = signbit(ray_direction_inv[0]);
 	float dmin = (corners[sign][0] - ray_origin[0]) * ray_direction_inv[0];

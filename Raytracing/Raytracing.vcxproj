@@ -135,6 +135,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +156,7 @@
     <ClCompile Include="postprocessing.cpp" />
     <ClCompile Include="ray.cpp" />
     <ClCompile Include="Raytracing.cpp" />
+    <ClCompile Include="rectangularprism.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="triangle.cpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="bmpwriter.h" />
     <ClInclude Include="postprocessing.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="rectangularprism.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="triangle.h" />
