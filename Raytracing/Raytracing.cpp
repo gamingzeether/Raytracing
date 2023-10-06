@@ -187,7 +187,7 @@ int main() {
             }
         }
 
-        int count[thread_count];
+        int* count = new int[thread_count];
         bool working = true;
         while (working) {
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
