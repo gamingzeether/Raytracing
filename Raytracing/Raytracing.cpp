@@ -28,8 +28,8 @@
 
 // Define constants
 #define PI 3.1415926535897932385
-#define RAD_TO_DEG (PI / 180)
-#define DEG_TO_RAD (180 / PI)
+#define DEG_TO_RAD (PI / 180)
+#define RAD_TO_DEG (180 / PI)
 
 #ifdef LOW_QUALITY
 const int max_recur = 3;
